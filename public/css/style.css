@@ -1,0 +1,85 @@
+/* 공통 스타일 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* 카드 스타일 */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* 테이블 스타일 */
+.table th {
+    background-color: #f1f1f1;
+}
+
+/* 폼 스타일 */
+.form-label {
+    font-weight: 500;
+}
+
+/* 네비게이션 활성화 메뉴 강조 */
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+    background-color: #0d6efd;
+}
+
+.btn-success {
+    background-color: #198754;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+/* 랭킹 테이블 스타일 */
+.rank-1 {
+    background-color: #ffd700 !important;
+}
+
+.rank-2 {
+    background-color: #c0c0c0 !important;
+}
+
+.rank-3 {
+    background-color: #cd7f32 !important;
+}
+
+/* 팀 색상 */
+.team-blue {
+    background-color: #cfe2ff;
+}
+
+.team-red {
+    background-color: #f8d7da;
+}
+
+/* 상세 정보 카드 */
+.stats-card {
+    transition: transform 0.3s;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 14px;
+    }
+}
