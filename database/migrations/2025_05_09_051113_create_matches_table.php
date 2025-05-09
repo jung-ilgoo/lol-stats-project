@@ -15,6 +15,8 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
+            $table->date('match_date');    // 날짜 필드 추가
+            $table->string('winner');      // 승리팀 필드 추가
             $table->timestamps();
         });
     }

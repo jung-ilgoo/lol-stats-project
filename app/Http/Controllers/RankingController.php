@@ -23,7 +23,7 @@ class RankingController extends Controller
     public function index()
     {
         // 플레이어 승률 랭킹 (상위 10명)
-        $playerRankings = Player::withCount(['matchesWon', 'matchesPlayed'])
+        $playerRankings = Player::withCount(['matchesWon', 'matches as matches_count'])
             ->selectRaw('players.*, 
                         (CASE WHEN matches_played_count > 0 
                             THEN matches_won_count / matches_played_count 
@@ -64,7 +64,7 @@ class RankingController extends Controller
     {
         $minGames = $request->get('min_games', 1);
         
-        $rankings = Player::withCount(['matchesWon', 'matchesPlayed'])
+        $rankings = Player::withCount(['matchesWon', 'matches as matches_count'])
             ->selectRaw('players.*, 
                         (CASE WHEN matches_played_count > 0 
                             THEN matches_won_count / matches_played_count 
