@@ -281,8 +281,9 @@ class TeamBalanceService
         
         $sum = 0;
         foreach ($team as $player) {
-            $player_obj = $player['player'];
-            $sum += $player_obj->getWinRate() / 100; // getWinRate는 백분율을 반환하므로 나누기 100
+            // 승률 계산 방식 수정
+        $player_win_rate = $player_obj->getWinRate(); // 이미 백분율 형태로 반환됨
+        $sum += $player_win_rate / 100; // 백분율에서 소수로 변환
         }
         
         return $sum / count($team);

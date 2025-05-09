@@ -18,19 +18,19 @@ class MainController extends Controller
         $recentMatches = Match::orderBy('match_date', 'desc')->take(5)->get();
         
         // 승률 기준 탑 플레이어 (상위 5명)
-        $topPlayers = Player::withCount(['matchesWon', 'matches as matches_count'])
-            ->selectRaw('players.*, 
-                        (CASE WHEN matches_played_count > 0 
-                            THEN matches_won_count / matches_played_count 
-                            ELSE 0 END) as win_rate,
-                        (SELECT AVG((kills + assists) / GREATEST(deaths, 1)) 
-                        FROM match_player 
-                        WHERE match_player.player_id = players.id) as kda')
-            ->having('matches_played_count', '>', 0)
-            ->orderBy('win_rate', 'desc')
-            ->orderBy('kda', 'desc')
-            ->take(5)
-            ->get();
+        $topPlayers = Player::withCount(['matchesWon as matches_won_count', 'matches as matches_count'])
+        ->selectRaw('players.*, 
+                    (CASE WHEN matches_count > 0 
+                        THEN matches_won_count / matches_count 
+                        ELSE 0 END) as win_rate,
+                    (SELECT AVG((kills + assists) / GREATEST(deaths, 1)) 
+                    FROM match_player 
+                    WHERE match_player.player_id = players.id) as kda')
+        ->having('matches_count', '>', 0)
+        ->orderBy('win_rate', 'desc')
+        ->orderBy('kda', 'desc')
+        ->take(5)
+        ->get();
         
         // 통계 데이터
         $totalPlayers = Player::count();

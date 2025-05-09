@@ -23,19 +23,18 @@ class RankingController extends Controller
     public function index()
     {
         // 플레이어 승률 랭킹 (상위 10명)
-        $playerRankings = Player::withCount(['matchesWon', 'matches as matches_count'])
+        $rankings = Player::withCount(['matchesWon as matches_won_count', 'matches as matches_count'])
             ->selectRaw('players.*, 
-                        (CASE WHEN matches_played_count > 0 
-                            THEN matches_won_count / matches_played_count 
+                        (CASE WHEN matches_count > 0 
+                            THEN matches_won_count / matches_count 
                             ELSE 0 END) as win_rate,
                         (SELECT AVG((kills + assists) / GREATEST(deaths, 1)) 
                         FROM match_player 
                         WHERE match_player.player_id = players.id) as kda')
-            ->having('matches_played_count', '>', 0)
+            ->having('matches_count', '>=', $minGames)
             ->orderBy('win_rate', 'desc')
             ->orderBy('kda', 'desc')
-            ->take(10)
-            ->get();
+            ->paginate(15);
         
         // 챔피언 승률 랭킹 (상위 10개)
         $championRankings = Champion::leftJoin('match_player', 'champions.id', '=', 'match_player.champion_id')

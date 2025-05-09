@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB; // 추가된 부분
 
 class Player extends Model
 {
@@ -117,12 +118,20 @@ class Player extends Model
     }
 
     /**
- * 플레이어가 속한 경기 조회
- */
+     * 플레이어가 속한 경기 조회
+     */
     public function matches()
     {
         return $this->belongsToMany(Match::class, 'match_player')
                     ->withPivot('team', 'position', 'champion_id', 'kills', 'deaths', 'assists');
+    }
+    
+    /**
+     * 플레이어가 참여한 모든 경기 수를 계산하기 위한 관계
+     */
+    public function matchesPlayed()
+    {
+        return $this->belongsToMany(Match::class, 'match_player');
     }
 
     /**
@@ -131,15 +140,7 @@ class Player extends Model
     public function matchesWon()
     {
         return $this->belongsToMany(Match::class, 'match_player')
-                    ->where(function($query) {
-                        $query->where(function($q) {
-                            $q->where('match_player.team', 'blue')
-                            ->whereColumn('matches.winner', 'match_player.team');
-                        })->orWhere(function($q) {
-                            $q->where('match_player.team', 'red')
-                            ->whereColumn('matches.winner', 'match_player.team');
-                        });
-                    })
+                    ->whereRaw('match_player.team = matches.winner')
                     ->withPivot('team', 'position', 'champion_id', 'kills', 'deaths', 'assists');
     }
 
