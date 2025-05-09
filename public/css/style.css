@@ -83,3 +83,40 @@ body {
         font-size: 14px;
     }
 }
+
+/* 추가 내용: 팀 밸런스 관련 스타일 */
+.player-card {
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.player-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.player-card.selected {
+    background-color: #e7f6ff;
+    border-color: #0d6efd;
+}
+
+.selected-players-count {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* 랭킹 테이블 스타일 */
+.position-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.position-top { background-color: #ffcccc; }
+.position-jungle { background-color: #ccffcc; }
+.position-mid { background-color: #ccccff; }
+.position-adc { background-color: #ffffcc; }
+.position-support { background-color: #ffccff; }

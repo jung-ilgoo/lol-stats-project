@@ -85,7 +85,9 @@ class TeamBalanceService
             'blue_team' => array_values($bestBlueTeam),
             'red_team' => array_values($bestRedTeam),
             'balance_score' => $bestBalanceScore,
-            'avg_win_rate_diff' => abs($this->getAverageWinRate($bestBlueTeam) - $this->getAverageWinRate($bestRedTeam))
+            'avg_win_rate_diff' => abs($this->getAverageWinRate($bestBlueTeam) - $this->getAverageWinRate($bestRedTeam)),
+            'blue_team_avg_win_rate' => $this->getAverageWinRate($bestBlueTeam),
+            'red_team_avg_win_rate' => $this->getAverageWinRate($bestRedTeam)
         ];
     }
     
@@ -202,7 +204,9 @@ class TeamBalanceService
             'avg_position_win_rate_diff' => abs(
                 $this->getAveragePositionWinRate($bestBlueTeam) - 
                 $this->getAveragePositionWinRate($bestRedTeam)
-            )
+            ),
+            'blue_team_avg_position_win_rate' => $this->getAveragePositionWinRate($bestBlueTeam),
+            'red_team_avg_position_win_rate' => $this->getAveragePositionWinRate($bestRedTeam)
         ];
     }
     
@@ -260,6 +264,25 @@ class TeamBalanceService
         $sum = 0;
         foreach ($team as $player) {
             $sum += $player['position_win_rate'];
+        }
+        
+        return $sum / count($team);
+    }
+
+// getAveragePositionWinRate 메서드 아래에 다음 메서드를 추가
+/**
+ * 팀의 평균 전체 승률 계산
+ */
+    public function getAverageWinRateOfTeam($team)
+    {
+        if (empty($team)) {
+            return 0;
+        }
+        
+        $sum = 0;
+        foreach ($team as $player) {
+            $player_obj = $player['player'];
+            $sum += $player_obj->getWinRate() / 100; // getWinRate는 백분율을 반환하므로 나누기 100
         }
         
         return $sum / count($team);
